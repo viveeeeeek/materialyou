@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:materialyou/theme/text_field.dart';
-import 'package:materialyou/widgets/custom_buttons.dart';
+import 'package:materialyou/widgets/buttons.dart';
+import 'package:materialyou/widgets/text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key, required this.isUsingDynamicColors});

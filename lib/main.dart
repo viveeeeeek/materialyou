@@ -1,7 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:materialyou/homepage.dart';
 import 'package:materialyou/theme/app_theme.dart';
+import 'package:materialyou/views/login.dart';
+import 'package:materialyou/views/settings.dart';
 
 bool _isDemoUsingDynamicColors = false;
 
@@ -26,14 +27,10 @@ class MyApp extends StatelessWidget {
 
             return MaterialApp(
                 theme: ThemeData(
-                  colorScheme: lightColorScheme,
-                ),
-                darkTheme: ThemeData(
-                  colorScheme: darkColorScheme,
-                ),
-                home: LoginScreen(
-                  isUsingDynamicColors: _isDemoUsingDynamicColors,
-                ));
+                    colorScheme: lightColorScheme, useMaterial3: true),
+                darkTheme:
+                    ThemeData(colorScheme: darkColorScheme, useMaterial3: true),
+                home: SettingsScreen());
           },
         );
       },
