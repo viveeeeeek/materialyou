@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:materialyou/theme/dynamic_color_provider.dart';
+import 'package:materialyou/theme/shared_prefs_provider.dart';
 import 'package:materialyou/widgets/color_container.dart';
 import 'package:provider/provider.dart';
 
@@ -9,13 +10,22 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool isDynamicColor = true;
+  void initState() {
+    super.initState();
+    final sharedPrefsProvider =
+        Provider.of<SharedPrefsProvider>(context, listen: false);
+    sharedPrefsProvider.loadIsDynamicColor();
+  }
 
   @override
   Widget build(BuildContext context) {
     final dynamiColorProvider = Provider.of<ThemeProvider>(context);
+    final sharedPrefsProvider = Provider.of<SharedPrefsProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        title: Text(sharedPrefsProvider.isDynamiColor
+            ? '[sharedPrefsProvider] is True'
+            : '[sharedPrefsProvider] is False'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -24,50 +34,64 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         elevation: 0, // Set the elevation to 0 for a flat AppBar
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text('Dynamic color'),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Theme.of(context)
+                    .colorScheme
+                    .secondaryContainer
+                    .withAlpha(20), // Change this color if needed
               ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Switch(
-                  value: dynamiColorProvider
-                      .isDynamicColor, // Set the initial value of the switch
-                  onChanged: (value) {
-                    // Handle switch state changes here
-                    setState(() {
-                      dynamiColorProvider
-                          .setIsDynamicColor(value); // Update using provider
-                    });
-                    print(dynamiColorProvider
-                        .isDynamicColor); // Print the updated value
-                  },
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Dynamic color'),
+                        Switch(
+                          value: sharedPrefsProvider
+                              .isDynamiColor, // Set the initial value of the switch
+                          onChanged: (value) {
+                            // Handle switch state changes here
+                            sharedPrefsProvider.isDynamiColor = !value;
+                            setState(() {
+                              sharedPrefsProvider.saveIsDynamicColor(
+                                  value); // Update using provider
+                            });
+                            print(sharedPrefsProvider
+                                .isDynamiColor); // Print the updated value
+                          },
+                        ),
+                      ],
+                    ),
+                    Visibility(
+                      visible: sharedPrefsProvider.isDynamiColor == false,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          CustomContainer(containerColor: Colors.red),
+                          CustomContainer(containerColor: Colors.purple),
+                          CustomContainer(containerColor: Colors.teal),
+                          CustomContainer(containerColor: Colors.yellow)
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomContainer(containerColor: Colors.red),
-              CustomContainer(containerColor: Colors.purple),
-              CustomContainer(containerColor: Colors.teal),
-              CustomContainer(containerColor: Colors.yellow)
-            ],
-          ),
+            )
 
-          // Add more widgets to the Column if needed
-        ],
+            // Add more widgets to the Column if needed
+          ],
+        ),
       ),
     );
   }

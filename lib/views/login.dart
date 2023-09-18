@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:materialyou/views/settings.dart';
 import 'package:materialyou/widgets/buttons.dart';
 import 'package:materialyou/widgets/text_field.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key, required this.isUsingDynamicColors});
-  final bool
-      isUsingDynamicColors; // Change _isUsingDynamicColors to isUsingDynamicColors
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    String dynamicMsg = isUsingDynamicColors ? ' (dynamic)' : ' (not dynamic)';
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: Text(dynamicMsg),
+        title: Text('Login'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SettingsScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

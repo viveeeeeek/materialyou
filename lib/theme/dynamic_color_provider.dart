@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class ThemeProvider extends ChangeNotifier {
   bool _isDynamicColor = true;
   bool _isThemeColorSelected = false;
-  Color _themeColor = Colors.blue; // Default theme color
+  Color _themeColor = Color.fromARGB(255, 255, 0, 0);
 
   bool get isDynamicColor => _isDynamicColor;
   bool get isThemeColorSelected => _isDynamicColor;
