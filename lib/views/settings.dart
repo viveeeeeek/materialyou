@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:materialyou/theme/dynamic_color_provider.dart';
 import 'package:materialyou/widgets/color_container.dart';
+import 'package:provider/provider.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool isDynamicColor = true;
+
   @override
   Widget build(BuildContext context) {
+    final dynamiColorProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -28,9 +38,16 @@ class SettingsScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Switch(
-                  value: false, // Set the initial value of the switch
+                  value: dynamiColorProvider
+                      .isDynamicColor, // Set the initial value of the switch
                   onChanged: (value) {
                     // Handle switch state changes here
+                    setState(() {
+                      dynamiColorProvider
+                          .setIsDynamicColor(value); // Update using provider
+                    });
+                    print(dynamiColorProvider
+                        .isDynamicColor); // Print the updated value
                   },
                 ),
               ),
@@ -39,7 +56,7 @@ class SettingsScreen extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomContainer(containerColor: Colors.red),

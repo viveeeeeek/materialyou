@@ -26,8 +26,8 @@ class CustomContainer extends StatelessWidget {
           },
           borderRadius: BorderRadius.circular(20.0),
           child: SizedBox(
-            height: 80,
-            width: 80,
+            height: 75,
+            width: 75,
             child: Center(
               child: Container(
                 width: 50.0, // Adjust the size as needed
