@@ -47,7 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Theme.of(context)
                     .colorScheme
                     .secondaryContainer
-                    .withAlpha(20), // Change this color if needed
+                    .withAlpha(80), // Change this color if needed
               ),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),

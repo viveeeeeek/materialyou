@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +24,7 @@ class SharedPrefsProvider extends ChangeNotifier {
     notifyListeners(); // Notify listeners after updating the value
   }
 
+  // We cant directly save colo in shared preferences so we convert it.
   Future<void> saveThemeColorToPrefs(Color color) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('red', color.red);

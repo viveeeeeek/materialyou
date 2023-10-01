@@ -13,6 +13,7 @@ class LoginScreen extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     final sharedPrefsProvider = Provider.of<SharedPrefsProvider>(context);
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text(sharedPrefsProvider.isDynamiColorOn
             ? '[sharedPrefsProvider] is True'
@@ -42,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                 color: Theme.of(context)
                     .colorScheme
                     .primaryContainer
-                    .withAlpha(20),
+                    .withAlpha(100),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(25.0),

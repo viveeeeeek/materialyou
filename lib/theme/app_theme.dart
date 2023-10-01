@@ -7,13 +7,35 @@ import '../providers/app_theme_provider.dart';
 // Fictitious brand color.
 const _brandColor = Colors.black;
 
-ColorScheme getLightColorScheme(ColorScheme? lightDynamic) {
-  if (lightDynamic != null) {
+// ColorScheme getLightColorScheme(ColorScheme? lightDynamic) {
+//   if (lightDynamic != null) {
+//     return lightDynamic.harmonized();
+//   } else {
+//     // Otherwise, use the fallback scheme.
+//     return ColorScheme.fromSeed(
+//       seedColor: _brandColor,
+//     );
+//   }
+// }
+
+//! IMPLEMENTED DYNAMICOLOUR SWITCH WITH PROVIDER (CURRENTLY ONLY FOR DARK DYNAMIC THEME)
+ColorScheme getLightColorScheme(
+    BuildContext context, ColorScheme? lightDynamic) {
+  ////  TAKING COLORSCHEME & BUILDCONTEXT AS INPUT BECAUSE
+  ////  BUILDCONTEXT IS REQUIRED FOR PROVIDER TO WORK AND COLORSCHEME IS REQUIRED FOR DYNAMICOLOR HANDLING
+
+  final themeProvider = Provider.of<ThemeProvider>(context);
+  final sharedPrefsProvider = Provider.of<SharedPrefsProvider>(context);
+
+  bool isDynamic = sharedPrefsProvider
+      .isDynamiColorOn; // Define isDynamic in the outer scope
+
+  if (lightDynamic != null && isDynamic == true) {
     return lightDynamic.harmonized();
   } else {
-    // Otherwise, use the fallback scheme.
     return ColorScheme.fromSeed(
-      seedColor: _brandColor,
+      seedColor: themeProvider.themeColor,
+      brightness: Brightness.light,
     );
   }
 }

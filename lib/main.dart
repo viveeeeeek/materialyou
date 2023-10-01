@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        final lightColorScheme = getLightColorScheme(lightDynamic);
+        final lightColorScheme = getLightColorScheme(context, lightDynamic);
         final darkColorScheme = getDarkColorScheme(context, darkDynamic);
 
         return MaterialApp(
