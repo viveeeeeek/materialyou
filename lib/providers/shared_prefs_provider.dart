@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,18 +10,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 //// With these changes, your SharedPrefsProvider should work correctly, and the toggle should reflect the updated value from SharedPreferences.
 
 class SharedPrefsProvider extends ChangeNotifier {
-  bool isDynamiColor = false;
+  bool isDynamiColorOn = false;
 
   Future<void> loadIsDynamicColor() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    isDynamiColor = prefs.getBool('isDynamicColorSelected') ?? true;
+    isDynamiColorOn = prefs.getBool('isDynamicColorSelected') ?? true;
     notifyListeners(); // Notify listeners after updating the value
   }
 
   Future<void> saveIsDynamicColor(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isDynamicColorSelected', value); // Use await here
-    isDynamiColor = value; // Update the value in the provider
+    isDynamiColorOn = value; // Update the value in the provider
     notifyListeners(); // Notify listeners after updating the value
+  }
+
+  Future<void> saveThemeColorToPrefs(Color color) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('red', color.red);
+    prefs.setInt('green', color.green);
+    prefs.setInt('blue', color.blue);
+    prefs.setInt('alpha', color.alpha);
+  }
+
+  Future<Color?> getThemeColorFromPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? red = prefs.getInt('red');
+    int? green = prefs.getInt('green');
+    int? blue = prefs.getInt('blue');
+    int? alpha = prefs.getInt('alpha');
+
+    if (red != null && green != null && blue != null && alpha != null) {
+      return Color.fromARGB(alpha, red, green, blue);
+    } else {
+      return null; // Return null if any color component is missing
+    }
   }
 }

@@ -1,8 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:materialyou/theme/shared_prefs_provider.dart';
+import 'package:materialyou/providers/shared_prefs_provider.dart';
 import 'package:provider/provider.dart';
-import 'dynamic_color_provider.dart';
+import '../providers/app_theme_provider.dart';
 
 // Fictitious brand color.
 const _brandColor = Colors.black;
@@ -26,8 +26,8 @@ ColorScheme getDarkColorScheme(BuildContext context, ColorScheme? darkDynamic) {
   final themeProvider = Provider.of<ThemeProvider>(context);
   final sharedPrefsProvider = Provider.of<SharedPrefsProvider>(context);
 
-  bool isDynamic =
-      sharedPrefsProvider.isDynamiColor; // Define isDynamic in the outer scope
+  bool isDynamic = sharedPrefsProvider
+      .isDynamiColorOn; // Define isDynamic in the outer scope
 
   if (darkDynamic != null && isDynamic == true) {
     return darkDynamic.harmonized();

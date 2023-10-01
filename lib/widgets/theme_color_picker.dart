@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:materialyou/theme/dynamic_color_provider.dart';
+import 'package:materialyou/providers/app_theme_provider.dart';
+import 'package:materialyou/providers/shared_prefs_provider.dart';
 import 'package:provider/provider.dart';
 
 class CustomContainer extends StatelessWidget {
@@ -10,6 +11,7 @@ class CustomContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final sharedPrefsProvider = Provider.of<SharedPrefsProvider>(context);
     return Material(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -23,6 +25,7 @@ class CustomContainer extends StatelessWidget {
         child: InkWell(
           onTap: () {
             themeProvider.setThemeColor(containerColor);
+            sharedPrefsProvider.saveThemeColorToPrefs(containerColor);
           },
           borderRadius: BorderRadius.circular(20.0),
           child: SizedBox(

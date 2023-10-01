@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:materialyou/providers/shared_prefs_provider.dart';
 import 'package:materialyou/views/settings.dart';
 import 'package:materialyou/widgets/buttons.dart';
 import 'package:materialyou/widgets/text_field.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -9,11 +11,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-
+    final sharedPrefsProvider = Provider.of<SharedPrefsProvider>(context);
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text(sharedPrefsProvider.isDynamiColorOn
+            ? '[sharedPrefsProvider] is True'
+            : '[sharedPrefsProvider] is False'),
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
@@ -39,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                 color: Theme.of(context)
                     .colorScheme
                     .primaryContainer
-                    .withAlpha(60),
+                    .withAlpha(20),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(25.0),
