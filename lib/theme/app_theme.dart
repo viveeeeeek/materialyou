@@ -4,59 +4,45 @@ import 'package:materialyou/providers/shared_prefs_provider.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_theme_provider.dart';
 
-// Fictitious brand color.
-const _brandColor = Colors.black;
-
-// ColorScheme getLightColorScheme(ColorScheme? lightDynamic) {
-//   if (lightDynamic != null) {
-//     return lightDynamic.harmonized();
-//   } else {
-//     // Otherwise, use the fallback scheme.
-//     return ColorScheme.fromSeed(
-//       seedColor: _brandColor,
-//     );
-//   }
-// }
-
-//! IMPLEMENTED DYNAMICOLOUR SWITCH WITH PROVIDER (CURRENTLY ONLY FOR DARK DYNAMIC THEME)
+// //! IMPLEMENTED DYNAMICOLOUR SWITCH WITH PROVIDER (CURRENTLY ONLY FOR DARK DYNAMIC THEME)
 ColorScheme getLightColorScheme(
     BuildContext context, ColorScheme? lightDynamic) {
-  ////  TAKING COLORSCHEME & BUILDCONTEXT AS INPUT BECAUSE
-  ////  BUILDCONTEXT IS REQUIRED FOR PROVIDER TO WORK AND COLORSCHEME IS REQUIRED FOR DYNAMICOLOR HANDLING
-
   final themeProvider = Provider.of<ThemeProvider>(context);
   final sharedPrefsProvider = Provider.of<SharedPrefsProvider>(context);
 
-  bool isDynamic = sharedPrefsProvider
-      .isDynamiColorOn; // Define isDynamic in the outer scope
+  bool isDynamic = sharedPrefsProvider.isDynamiColorOn;
 
-  if (lightDynamic != null && isDynamic == true) {
-    return lightDynamic.harmonized();
-  } else {
-    return ColorScheme.fromSeed(
-      seedColor: themeProvider.themeColor,
-      brightness: Brightness.light,
-    );
+  try {
+    if (lightDynamic != null && isDynamic == true) {
+      return lightDynamic.harmonized();
+    } else {
+      return ColorScheme.fromSeed(
+        seedColor: themeProvider.themeColor,
+        brightness: Brightness.light,
+      );
+    }
+  } catch (e) {
+    print('Error getting light color scheme: $e');
+    return ColorScheme.light(); // Return a default color scheme on error
   }
 }
 
-//! IMPLEMENTED DYNAMICOLOUR SWITCH WITH PROVIDER (CURRENTLY ONLY FOR DARK DYNAMIC THEME)
 ColorScheme getDarkColorScheme(BuildContext context, ColorScheme? darkDynamic) {
-  ////  TAKING COLORSCHEME & BUILDCONTEXT AS INPUT BECAUSE
-  ////  BUILDCONTEXT IS REQUIRED FOR PROVIDER TO WORK AND COLORSCHEME IS REQUIRED FOR DYNAMICOLOR HANDLING
-
   final themeProvider = Provider.of<ThemeProvider>(context);
   final sharedPrefsProvider = Provider.of<SharedPrefsProvider>(context);
+  bool isDynamic = sharedPrefsProvider.isDynamiColorOn;
 
-  bool isDynamic = sharedPrefsProvider
-      .isDynamiColorOn; // Define isDynamic in the outer scope
-
-  if (darkDynamic != null && isDynamic == true) {
-    return darkDynamic.harmonized();
-  } else {
-    return ColorScheme.fromSeed(
-      seedColor: themeProvider.themeColor,
-      brightness: Brightness.dark,
-    );
+  try {
+    if (darkDynamic != null && isDynamic == true) {
+      return darkDynamic.harmonized();
+    } else {
+      return ColorScheme.fromSeed(
+        seedColor: themeProvider.themeColor,
+        brightness: Brightness.dark,
+      );
+    }
+  } catch (e) {
+    print('Error getting dark color scheme: $e');
+    return ColorScheme.dark(); // Return a default color scheme on error
   }
 }
